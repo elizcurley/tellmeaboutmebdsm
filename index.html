@@ -3,19 +3,27 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Archetype Quiz</title>
-  <link rel="stylesheet" href="css/styles.css"/>
+  <title>Psyche → Kink | Start</title>
+  <link rel="stylesheet" href="assets/css/styles.css"/>
 </head>
 <body>
+  <header>
+    <div class="container"><strong>Psyche → Kink Profile</strong></div>
+  </header>
   <main class="container">
-    <h1>Archetype Quiz</h1>
-    <p>Welcome! Your responses stay local to your device for this demo build.</p>
-
-    <section class="card">
-      <h2>Consent & Privacy</h2>
-      <p>By continuing, you consent to anonymous scoring stored in your browser only (localStorage) for the session.</p>
-      <button onclick="location.href='quiz.html'" class="btn">Begin</button>
-    </section>
+    <div class="card">
+      <h1>Consent & Privacy</h1>
+      <p>This quiz runs entirely in your browser. Your answers are stored locally on your device unless you choose to export them. You can pause and resume later.</p>
+      <ul>
+        <li>No data is sent to a server.</li>
+        <li>You can skip questions and go back.</li>
+        <li>Export a PDF at the end if you want.</li>
+      </ul>
+      <div style="display:flex;gap:12px;margin-top:12px">
+        <button onclick="location.href='take.html'">Begin</button>
+        <button class="secondary" onclick="location.href='results.html'">View Last Results</button>
+      </div>
+    </div>
   </main>
 </body>
 </html>

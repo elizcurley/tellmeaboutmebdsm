@@ -3,17 +3,52 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Results</title>
-  <link rel="stylesheet" href="css/styles.css"/>
+  <title>Psyche → Kink | Results</title>
+  <link rel="stylesheet" href="assets/css/styles.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+  <header>
+    <div class="container"><strong>Your Profile</strong></div>
+  </header>
   <main class="container">
-    <h1>Your Results</h1>
-
-    <section id="summary" class="card"></section>
-    <section id="details" class="card"></section>
+    <div class="grid">
+      <div class="card" id="profileCard">
+        <h1 id="primaryTitle">Primary Archetype</h1>
+        <p id="primaryDesc" class="small"></p>
+        <h3 id="secondaryTitle" style="margin-top:12px"></h3>
+        <p id="secondaryDesc" class="small"></p>
+        <hr/>
+        <h3>Affirmation</h3>
+        <p id="affirmation"></p>
+        <h3>Personalized Insights</h3>
+        <ul id="insights"></ul>
+        <h3>Reflection Questions</h3>
+        <ul id="reflections"></ul>
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button id="exportBtn">Export PDF (print)</button>
+          <button class="secondary" id="copyState">Copy Resume Code</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Profile Map</h2>
+        <canvas id="spider" width="400" height="400"></canvas>
+        <div id="dimensionBadges" style="margin-top:8px"></div>
+      </div>
+    </div>
+    <div class="card" id="kinkCard">
+      <h2>Kink Translation</h2>
+      <table class="table" id="kinkTable">
+        <thead>
+          <tr>
+            <th>Pathway</th><th>Practices</th><th>Roles</th><th>Safety Notes</th><th>Starter Scenes</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </main>
-
-  <script src="js/results.js"></script>
+  <script src="assets/js/utils.js"></script>
+  <script src="assets/js/results.js"></script>
 </body>
 </html>

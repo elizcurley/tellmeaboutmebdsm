@@ -3,27 +3,29 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Quiz</title>
-  <link rel="stylesheet" href="css/styles.css"/>
+  <title>Psyche → Kink | Quiz</title>
+  <link rel="stylesheet" href="assets/css/styles.css"/>
 </head>
 <body>
+  <header>
+    <div class="container">
+      <strong>Psyche → Kink Profile</strong>
+      <div class="progress"><div id="progressbar"></div></div>
+      <div class="small">Autosaves locally</div>
+    </div>
+  </header>
   <main class="container">
-    <header class="quiz-header">
-      <h1>Quiz</h1>
-      <div id="progress">Question <span id="qNum">1</span>/<span id="qTotal">?</span></div>
-    </header>
-
-    <section id="questionCard" class="card">
-      <h2 id="questionText">Loading…</h2>
-      <div id="options"></div>
-      <div class="actions">
-        <button id="backBtn" class="btn btn-secondary">Back</button>
-        <button id="skipBtn" class="btn btn-secondary">Skip</button>
-        <button id="nextBtn" class="btn">Next</button>
+    <div id="qcard" class="card">
+      <div id="prompt"></div>
+      <div id="answers"></div>
+      <div id="nav" style="display:flex;gap:8px;margin-top:12px">
+        <button class="secondary" id="backBtn">Back</button>
+        <button id="skipBtn" class="secondary">Skip</button>
+        <button id="nextBtn">Next</button>
       </div>
-    </section>
+    </div>
   </main>
-
-  <script src="js/quiz.js"></script>
+  <script src="assets/js/utils.js"></script>
+  <script src="assets/js/quiz.js"></script>
 </body>
 </html>
