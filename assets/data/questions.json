@@ -1,31 +1,38 @@
 [
   {
-    "id": "q1",
-    "type": "single",
-    "text": "When starting something new, which vibe fits you best?",
-    "options": [
-      { "id": "a", "text": "Dive in and iterate as I go", "tags": ["experimentation","curiosity"], "weight": 1.2 },
-      { "id": "b", "text": "Sketch a plan, then act", "tags": ["planning","leadership"], "weight": 1.1 },
-      { "id": "c", "text": "Center people and stability first", "tags": ["care","stability"], "weight": 1.0 }
-    ]
-  },
-  {
-    "id": "q2",
-    "type": "multi",
-    "text": "Pick any dynamics that feel resonant (choose all that apply).",
-    "options": [
-      { "id": "a", "text": "Playful exploration", "tags": ["play","novelty"], "weight": 1.0 },
-      { "id": "b", "text": "Intentional ritual", "tags": ["ritual","introspection"], "weight": 1.0 },
-      { "id": "c", "text": "Clear boundaries", "tags": ["boundary","planning"], "weight": 1.0 },
-      { "id": "d", "text": "Service or caretaking", "tags": ["service","care"], "weight": 1.0 },
-      { "id": "e", "text": "Power exchange", "tags": ["power_exchange","leadership"], "weight": 1.0 }
-    ]
-  },
-  {
-    "id": "q3",
+    "id": "att_01",
     "type": "scale",
-    "text": "I enjoy transforming ideas into tangible experiments.",
-    "scaleLabels": ["Strongly disagree","Disagree","Neutral","Agree","Strongly agree"],
-    "scaleTags": ["creativity","experimentation"]
+    "prompt": "When tension rises in an important relationship, what feels most natural in the first hour?",
+    "scale": { "min": 1, "max": 7, "left": "take space to settle", "right": "move closer to repair" },
+    "weights": { "attachment_orientation": "scale(-0.6,+0.6)" }
+  },
+  {
+    "id": "affect_02",
+    "type": "scale",
+    "prompt": "How easily can you ride a strong emotional wave and still make grounded choices?",
+    "scale": { "min": 1, "max": 7, "left": "I get flooded/shut down", "right": "I can stay present and steer" },
+    "weights": { "affect_regulation": "scale(-0.7,+0.7)" }
+  },
+  {
+    "id": "bound_03",
+    "type": "single",
+    "prompt": "Which description sounds most like you when sharing limits?",
+    "options": [
+      { "label": "I know them after the fact; it’s hard in the moment.", "boosts": { "boundary_consent": -0.6, "interpersonal_attunement": -0.2 } },
+      { "label": "I can state basics, but nuance is tough under pressure.", "boosts": { "boundary_consent": 0.1 } },
+      { "label": "I name them clearly and update as things shift.", "boosts": { "boundary_consent": 0.6, "interpersonal_attunement": 0.2 } }
+    ]
+  },
+  {
+    "id": "auth_04",
+    "type": "multi",
+    "prompt": "In group projects or shared tasks, which roles feel energizing (pick up to 2)?",
+    "max_select": 2,
+    "options": [
+      { "label": "Setting direction and keeping the cadence", "boosts": { "authority_agency": 0.6 } },
+      { "label": "Executing within a clear structure", "boosts": { "authority_agency": 0.4, "ritual_meaning": 0.2 } },
+      { "label": "Rotating roles based on context", "boosts": { "authority_agency": 0.2, "interpersonal_attunement": 0.3 } },
+      { "label": "Working alongside as equals, lightly facilitated", "boosts": { "authority_agency": -0.2 } }
+    ]
   }
 ]
