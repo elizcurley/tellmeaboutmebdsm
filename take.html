@@ -1,54 +1,33 @@
-<script>
-/* ===== Panic Kit: On-page errors + fetch probes ===== */
-(function(){
-  // Floating panel
-  const p = document.createElement('div');
-  p.id='__panic';
-  p.style.cssText='position:fixed;left:12px;bottom:12px;max-width:520px;background:#111;color:#fff;padding:10px 12px;border-radius:10px;font:12px/1.35 system-ui;z-index:99999;opacity:.95;box-shadow:0 8px 24px rgba(0,0,0,.35)';
-  p.innerHTML = '<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px"><strong>Diagnostics</strong><span style="opacity:.7">(take.html)</span><button id="__panic_close" style="margin-left:auto;background:#444;color:#fff;border:none;border-radius:6px;padding:3px 8px;cursor:pointer">×</button></div><div id="__panic_body" style="max-height:260px;overflow:auto"></div>';
-  document.addEventListener('DOMContentLoaded', ()=>document.body.appendChild(p));
-  document.addEventListener('click', e=>{ if(e.target.id==='__panic_close'){ p.remove(); } });
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Psyche → Kink | Quiz</title>
+  <link rel="stylesheet" href="assets/css/styles.css"/>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <strong>Psyche → Kink Profile</strong>
+      <div class="progress"><div id="progressbar"></div></div>
+      <div class="small">Autosaves locally</div>
+    </div>
+  </header>
+  <main class="container">
+    <div id="qcard" class="card">
+      <div id="prompt"></div>
+      <div id="answers"></div>
+      <div id="nav" style="display:flex;gap:8px;margin-top:12px">
+        <button class="secondary" id="backBtn">Back</button>
+        <button id="skipBtn" class="secondary">Skip</button>
+        <button id="nextBtn">Next</button>
+      </div>
+    </div>
+  </main>
 
-  const log = (ok, msg) => {
-    const body = document.getElementById('__panic_body');
-    if(!body) return;
-    const dot = `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${ok?'#2a2':'#c33'};margin-right:6px"></span>`;
-    body.insertAdjacentHTML('beforeend', `<div style="margin:2px 0">${dot}${msg}</div>`);
-  };
-
-  // Error hooks
-  window.addEventListener('error', (e)=> log(false, 'JS Error: ' + (e.message||e.error)));
-  window.addEventListener('unhandledrejection', (e)=> log(false, 'Promise Rejection: ' + (e.reason && e.reason.message ? e.reason.message : e.reason)));
-
-  // Basic env
-  log(true, 'URL: ' + location.href);
-  log(true, 'Online: ' + navigator.onLine);
-  if (location.protocol === 'file:') log(false, 'Running from file:// — fetch() will fail. Use GitHub Pages or a local server.');
-
-  // Probe likely paths (adjust list if yours differ)
-  const paths = [
-    'assets/data/quiz/questions.json',
-    'assets/data/questions.json',
-    'assets/questions.json'
-  ];
-
-  (async () => {
-    for (const path of paths) {
-      try {
-        const res = await fetch(path, {cache:'no-store'});
-        log(res.ok, `GET ${path} → ${res.status}`);
-        if (res.ok) {
-          const ct = res.headers.get('content-type')||'';
-          log(ct.includes('application/json'), `content-type: ${ct || '(none)'}`);
-          // peek first 80 chars to confirm it’s an array/object
-          const text = await res.clone().text();
-          log(true, `preview: ${text.slice(0, 80).replace(/</g,'&lt;')}…`);
-          break; // stop after the first success
-        }
-      } catch (err) {
-        log(false, `GET ${path} failed: ${err.message}`);
-      }
-    }
-  })();
-})();
-</script>
+  <!-- add these two lines -->
+  <script src="assets/js/utils.js?v=1"></script>
+  <script src="assets/js/quiz.js?v=1"></script>
+</body>
+</html>
