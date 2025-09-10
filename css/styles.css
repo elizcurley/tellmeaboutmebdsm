@@ -19,3 +19,14 @@ p{line-height:1.55}
 .kv{display:grid; grid-template-columns:160px 1fr; gap:6px 12px}
 .badge{display:inline-block; padding:2px 8px; background:#eef2ff; border-radius:999px; font-size:.85rem; margin-right:6px}
 ul{margin:8px 0 0 18px}
+
+.arch-hero,
+.arch-secondary{
+  display:flex; gap:14px; align-items:center; margin-bottom:10px;
+}
+.arch-hero__img{
+  width:96px; height:96px; object-fit:contain; border-radius:12px; border:1px solid var(--line); background:#fff;
+}
+.arch-secondary__img{
+  width:56px; height:56px; object-fit:contain; border-radius:10px; border:1px solid var(--line); background:#fff;
+}

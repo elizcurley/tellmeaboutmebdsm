@@ -3,6 +3,15 @@
     loadAndRender();
   });
 
+  function archetypeSlug(key) {
+  // Normalize keys like "The Alchemist" → "alchemist"
+  return String(key).trim().toLowerCase().replace(/^the\s+/, '').replace(/\s+/g, '-');
+}
+function archetypeImagePath(key) {
+  return `images/archetypes/${archetypeSlug(key)}.png`;
+}
+
+
   async function loadAndRender() {
     try {
       const answers = JSON.parse(localStorage.getItem('quiz_answers_v2') || '[]');
@@ -110,42 +119,59 @@
     return norm;
   }
 
-  function renderSummary(primary, secondary, archetypes, quizData, ranked) {
-    const arch1 = archetypes.find(a => a.key === primary.key);
-    const arch2 = secondary ? archetypes.find(a => a.key === secondary.key) : null;
+ function renderSummary(primary, secondary, archetypes, quizData, ranked) {
+  const arch1 = archetypes.find(a => a.key === primary.key);
+  const arch2 = secondary ? archetypes.find(a => a.key === secondary.key) : null;
 
-    const data = quizData[primary.key] || {};
-    const affirm = data.affirmation ?? 'You bring a unique balance of strengths.';
-    const desc = arch1?.description ?? 'No description available.';
-    const insights = data.insights ?? [];
-    const reflections = data.reflection_questions ?? [];
+  const data = quizData[primary.key] || {};
+  const affirm = data.affirmation ?? 'You bring a unique balance of strengths.';
+  const desc = arch1?.description ?? 'No description available.';
+  const insights = data.insights ?? [];
+  const reflections = data.reflection_questions ?? [];
 
-    const summary = document.getElementById('summary');
-    summary.innerHTML = `
-      <h2>Your Primary Archetype: ${arch1?.name ?? primary.key}</h2>
-      <p class="small"><span class="badge">${primary.score}</span> score</p>
-      <p>${desc}</p>
+  const primaryImg = archetypeImagePath(arch1?.key || primary.key);
+  const secondaryImg = arch2 ? archetypeImagePath(arch2.key) : null;
 
-      ${arch2 ? `
-        <h3>Secondary Influence: ${arch2?.name ?? arch2?.key}</h3>
-        <p class="small"><span class="badge">${secondary.score}</span> score</p>
-      ` : ''}
+  const summary = document.getElementById('summary');
+  summary.innerHTML = `
+    <div class="arch-hero">
+      <img class="arch-hero__img" src="${primaryImg}" alt="${arch1?.name ?? primary.key}"
+           onerror="this.onerror=null; this.src='images/archetypes/_fallback.png';">
+      <div>
+        <h2>Your Primary Archetype: ${arch1?.name ?? primary.key}</h2>
+        <p class="small"><span class="badge">${primary.score}</span> score</p>
+      </div>
+    </div>
 
-      <h3>Affirming Message</h3>
-      <p>${affirm}</p>
+    <p>${desc}</p>
 
-      ${insights.length ? `
-      <h3>Personalized Insights</h3>
-      <ul>${insights.map(i => `<li>${i}</li>`).join('')}</ul>` : ''}
+    ${arch2 ? `
+      <div class="arch-secondary">
+        <img class="arch-secondary__img" src="${secondaryImg}" alt="${arch2?.name ?? arch2?.key}"
+             onerror="this.onerror=null; this.src='images/archetypes/_fallback.png';">
+        <div>
+          <h3>Secondary Influence: ${arch2?.name ?? arch2?.key}</h3>
+          <p class="small"><span class="badge">${secondary.score}</span> score</p>
+        </div>
+      </div>
+    ` : ''}
 
-      ${reflections.length ? `
-      <h3>Self-Reflection Questions</h3>
-      <ul>${reflections.map(r => `<li>${r}</li>`).join('')}</ul>` : ''}
+    <h3>Affirming Message</h3>
+    <p>${affirm}</p>
 
-      <h3>All Scores</h3>
-      <p class="small">${ranked.map(r => `<span class="badge">${r.key}: ${r.score}</span>`).join(' ')}</p>
-    `;
-  }
+    ${insights.length ? `
+    <h3>Personalized Insights</h3>
+    <ul>${insights.map(i => `<li>${i}</li>`).join('')}</ul>` : ''}
+
+    ${reflections.length ? `
+    <h3>Self-Reflection Questions</h3>
+    <ul>${reflections.map(r => `<li>${r}</li>`).join('')}</ul>` : ''}
+
+    <h3>All Scores</h3>
+    <p class="small">${ranked.map(r => `<span class="badge">${r.key}: ${r.score}</span>`).join(' ')}</p>
+  `;
+}
+
 
   function renderDetails(ranked, archetypes) {
     const details = document.getElementById('details');
