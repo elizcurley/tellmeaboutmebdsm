@@ -1,0 +1,10 @@
+[
+  { "key": "attachment_orientation",   "label": "Attachment Orientation" },
+  { "key": "affect_regulation",        "label": "Affect Regulation" },
+  { "key": "boundary_consent",         "label": "Boundary & Consent Clarity" },
+  { "key": "authority_agency",         "label": "Authority/Agency Pattern" },
+  { "key": "arousal_modulation",       "label": "Arousal Modulation" },
+  { "key": "shame_permission",         "label": "Shame–Permission Flexibility" },
+  { "key": "ritual_meaning",           "label": "Ritualization & Meaning-Making" },
+  { "key": "interpersonal_attunement", "label": "Interpersonal Attunement" }
+]
