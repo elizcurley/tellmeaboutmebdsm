@@ -1,14 +1,17 @@
-// ===== quiz.js (minimal to prove loading) =====
 (async function () {
   const promptEl = document.getElementById('prompt');
   const answersEl = document.getElementById('answers');
   const progressEl = document.getElementById('progressbar');
 
+  // If you still don't have utils.js, set this here temporarily:
+  const DATA_BASE = window.DATA_BASE || 'assets/data/quiz';
+  async function fetchJSON(path){ const r=await fetch(path,{cache:'no-store'}); if(!r.ok) throw new Error(`HTTP ${r.status} for ${path}`); return r.json(); }
+  function saveState(k,v){ localStorage.setItem(k, JSON.stringify(v)); }
+  function loadState(k,f=null){ try{ return JSON.parse(localStorage.getItem(k)) ?? f; }catch{ return f; } }
+
   try {
     const questions = await fetchJSON(`${DATA_BASE}/questions.json`);
-    if (!Array.isArray(questions) || questions.length === 0) {
-      throw new Error('questions.json is empty or not an array');
-    }
+    if (!Array.isArray(questions) || questions.length === 0) throw new Error('questions.json empty or not an array');
 
     let idx = 0;
     let answers = loadState('quiz_answers', {});
@@ -20,8 +23,7 @@
 
     function render() {
       const q = questions[idx];
-      if (!q) return finish();
-
+      if (!q) { finish(); return; }
       setProgress();
       promptEl.innerHTML = `<h2>${q.prompt}</h2>`;
       answersEl.innerHTML = '';
@@ -48,10 +50,7 @@
             } else {
               let arr = answers[q.id]?.indices || [];
               if (arr.includes(i)) arr = arr.filter(x => x !== i);
-              else {
-                if (q.max_select && arr.length >= q.max_select) return;
-                arr.push(i);
-              }
+              else { if (q.max_select && arr.length >= q.max_select) return; arr.push(i); }
               answers[q.id] = { indices: arr };
               div.classList.toggle('selected');
             }
@@ -61,8 +60,7 @@
         });
       } else if (q.type === 'open') {
         const ta = document.createElement('textarea');
-        ta.style.width = '100%';
-        ta.style.minHeight = '120px';
+        ta.style.width = '100%'; ta.style.minHeight = '120px';
         ta.placeholder = 'Type here (optional)…';
         ta.value = answers[q.id]?.text || '';
         ta.oninput = () => { answers[q.id] = { text: ta.value }; saveState('quiz_answers', answers); };
@@ -71,32 +69,27 @@
     }
 
     function finish() {
-      // For now, just go to results with empty computed result
       saveState('quiz_answers', answers);
       location.href = 'results.html';
     }
 
-    // Buttons
     document.getElementById('backBtn').onclick = () => { if (idx > 0) { idx--; render(); } };
     document.getElementById('skipBtn').onclick = () => { idx = Math.min(idx + 1, questions.length); render(); };
     document.getElementById('nextBtn').onclick = () => {
       const q = questions[idx];
       if (q?.type === 'scale') {
         const el = document.getElementById('slider');
-        if (el) {
-          answers[q.id] = { value: parseInt(el.value, 10) };
-          saveState('quiz_answers', answers);
-        }
+        if (el) { answers[q.id] = { value: parseInt(el.value, 10) }; saveState('quiz_answers', answers); }
       }
       idx++; render();
     };
 
     render();
   } catch (e) {
-    console.error('[quiz] failed to load:', e);
+    console.error('[quiz] failed:', e);
     document.getElementById('qcard').insertAdjacentHTML(
       'beforeend',
-      `<p class="small" style="color:#b00">Could not load <code>${DATA_BASE}/questions.json</code>: ${e.message}</p>`
+      `<p class="small" style="color:#b00">Could not load <code>questions.json</code>: ${e.message}</p>`
     );
   }
 })();
