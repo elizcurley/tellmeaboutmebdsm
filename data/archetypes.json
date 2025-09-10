@@ -1,0 +1,27 @@
+[
+  {
+    "key": "Alchemist",
+    "name": "The Alchemist",
+    "description": "A transformer who blends creativity and experimentation to turn raw ideas into living practices."
+  },
+  {
+    "key": "Keystone",
+    "name": "The Keystone",
+    "description": "A stabilizer and caregiver whose presence creates safety, continuity, and trust."
+  },
+  {
+    "key": "Catalyst",
+    "name": "The Catalyst",
+    "description": "A spark of initiative—mobilizes momentum, frames direction, and invites accountable action."
+  },
+  {
+    "key": "Explorer",
+    "name": "The Explorer",
+    "description": "A curious pathfinder who learns by trying, playing, and following the signal of novelty."
+  },
+  {
+    "key": "Vanguard",
+    "name": "The Vanguard",
+    "description": "A strategic sentinel balancing planning, boundaries, and forward movement with care."
+  }
+]

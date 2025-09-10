@@ -1,0 +1,31 @@
+[
+  {
+    "id": "q1",
+    "type": "single",
+    "text": "When starting something new, which vibe fits you best?",
+    "options": [
+      { "id": "a", "text": "Dive in and iterate as I go", "tags": ["experimentation","curiosity"], "weight": 1.2 },
+      { "id": "b", "text": "Sketch a plan, then act", "tags": ["planning","leadership"], "weight": 1.1 },
+      { "id": "c", "text": "Center people and stability first", "tags": ["care","stability"], "weight": 1.0 }
+    ]
+  },
+  {
+    "id": "q2",
+    "type": "multi",
+    "text": "Pick any dynamics that feel resonant (choose all that apply).",
+    "options": [
+      { "id": "a", "text": "Playful exploration", "tags": ["play","novelty"], "weight": 1.0 },
+      { "id": "b", "text": "Intentional ritual", "tags": ["ritual","introspection"], "weight": 1.0 },
+      { "id": "c", "text": "Clear boundaries", "tags": ["boundary","planning"], "weight": 1.0 },
+      { "id": "d", "text": "Service or caretaking", "tags": ["service","care"], "weight": 1.0 },
+      { "id": "e", "text": "Power exchange", "tags": ["power_exchange","leadership"], "weight": 1.0 }
+    ]
+  },
+  {
+    "id": "q3",
+    "type": "scale",
+    "text": "I enjoy transforming ideas into tangible experiments.",
+    "scaleLabels": ["Strongly disagree","Disagree","Neutral","Agree","Strongly agree"],
+    "scaleTags": ["creativity","experimentation"]
+  }
+]

@@ -1,0 +1,57 @@
+{
+  "Alchemist": {
+    "affirmation": "Your curiosity is a kiln—ideas become form when you touch them.",
+    "insights": [
+      "You thrive with small, repeatable experiments and reflective check-ins.",
+      "Rituals that mark iteration (start/stop/learn) nourish your momentum."
+    ],
+    "reflection_questions": [
+      "Where can you lower the stakes to test something this week?",
+      "What simple ritual helps you notice when an experiment is working?"
+    ]
+  },
+  "Keystone": {
+    "affirmation": "Your steadiness is a shelter; people exhale around you.",
+    "insights": [
+      "Clear boundaries protect your capacity for care.",
+      "Your pacing sets a healthy rhythm for relationships and projects."
+    ],
+    "reflection_questions": [
+      "What limit protects your energy today?",
+      "Where can you ask for co-responsibility to share the load?"
+    ]
+  },
+  "Catalyst": {
+    "affirmation": "You light the match and guide the flame.",
+    "insights": [
+      "Momentum comes from framing a first, smallest step.",
+      "Leadership shows up as invitations with clarity and options."
+    ],
+    "reflection_questions": [
+      "What is the 10-minute version of the next move?",
+      "Who needs context to say yes more easily?"
+    ]
+  },
+  "Explorer": {
+    "affirmation": "New paths appear because you’re willing to look.",
+    "insights": [
+      "Play is a legitimate method—follow signals, not scripts.",
+      "You learn fastest with safe constraints: time boxes, debriefs."
+    ],
+    "reflection_questions": [
+      "What’s a low-risk sandbox you can try today?",
+      "How will you capture what surprised you?"
+    ]
+  },
+  "Vanguard": {
+    "affirmation": "Your foresight steadies motion without stifling it.",
+    "insights": [
+      "You translate vision into scaffolding that others can climb.",
+      "Boundaries are creative tools, not just fences."
+    ],
+    "reflection_questions": [
+      "Which boundary is actually a structure you can build with?",
+      "What risk deserves a contingency plan (not a stop sign)?"
+    ]
+  }
+}

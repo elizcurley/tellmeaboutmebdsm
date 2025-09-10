@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Quiz</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+  <main class="container">
+    <header class="quiz-header">
+      <h1>Quiz</h1>
+      <div id="progress">Question <span id="qNum">1</span>/<span id="qTotal">?</span></div>
+    </header>
+
+    <section id="questionCard" class="card">
+      <h2 id="questionText">Loading…</h2>
+      <div id="options"></div>
+      <div class="actions">
+        <button id="backBtn" class="btn btn-secondary">Back</button>
+        <button id="skipBtn" class="btn btn-secondary">Skip</button>
+        <button id="nextBtn" class="btn">Next</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/quiz.js"></script>
+</body>
+</html>
