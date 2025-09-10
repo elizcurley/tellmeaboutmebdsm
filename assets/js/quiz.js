@@ -1,4 +1,4 @@
-// ===== assets/js/quiz.js (full engine) =====
+// ===== assets/js/quiz.js (full engine with selection feedback) =====
 (function () {
   // --- Fallbacks if utils.js isn't present ---
   const DATA_BASE = (window.DATA_BASE || 'assets/data/quiz');
@@ -35,10 +35,17 @@
 
   // Guard: required elements exist
   if (!promptEl || !answersEl || !progressEl || !backBtn || !skipBtn || !nextBtn) {
-    console.error('[quiz] Missing required DOM elements (prompt/answers/progressbar/back/skip/next).');
+    console.error('[quiz] Missing required DOM elements.');
     const card = document.getElementById('qcard');
     if (card) card.insertAdjacentHTML('beforeend', `<p class="small" style="color:#b00">Quiz UI elements not found. Check IDs in take.html.</p>`);
     return;
+  }
+
+  // Enable/disable Next button
+  function setNextEnabled(on) {
+    nextBtn.disabled = !on;
+    nextBtn.style.opacity = on ? '1' : '.6';
+    nextBtn.style.cursor = on ? 'pointer' : 'not-allowed';
   }
 
   // App state
@@ -57,21 +64,14 @@
         fetchJSON(`${DATA_BASE}/rules.json`)
       ]);
 
-      if (!Array.isArray(questions) || questions.length === 0) {
-        throw new Error('questions.json empty or not an array');
-      }
-      if (!Array.isArray(dimensions) || dimensions.length === 0) {
-        throw new Error('dimensions.json empty or not an array');
-      }
-      if (!Array.isArray(rules)) {
-        throw new Error('rules.json not an array');
-      }
+      if (!Array.isArray(questions) || questions.length === 0) throw new Error('questions.json empty or not an array');
+      if (!Array.isArray(dimensions) || dimensions.length === 0) throw new Error('dimensions.json empty or not an array');
+      if (!Array.isArray(rules)) throw new Error('rules.json not an array');
 
       QUESTIONS = questions;
       DIM_KEYS = dimensions.map(d => d.key);
       RULES = rules;
 
-      // If we have prior answers, keep them (resume)
       const resumed = loadState('quiz_answers', null);
       if (resumed) answers = resumed;
 
@@ -93,14 +93,9 @@
     skipBtn.onclick = () => { idx = Math.min(idx + 1, QUESTIONS.length); render(); };
     nextBtn.onclick = () => {
       const q = QUESTIONS[idx];
-      if (q) {
-        if (q.type === 'scale') {
-          const el = document.getElementById('slider');
-          if (el) {
-            answers[q.id] = { value: parseInt(el.value, 10) };
-          }
-        }
-        // single/multi/open are captured on click/input already
+      if (q && q.type === 'scale') {
+        const el = document.getElementById('slider');
+        if (el) answers[q.id] = { value: parseInt(el.value, 10) };
         saveState('quiz_answers', answers);
       }
       idx++;
@@ -122,6 +117,14 @@
     const h2 = document.createElement('h2');
     h2.textContent = q.prompt;
     promptEl.appendChild(h2);
+
+    // Default Next state based on type
+    if (q.type === 'scale' || q.type === 'open') {
+      setNextEnabled(true);
+    } else if (q.type === 'single' || q.type === 'multi') {
+      const has = !!(answers[q.id]?.indices && answers[q.id].indices.length);
+      setNextEnabled(has);
+    }
 
     // Type handlers
     if (q.type === 'scale') {
@@ -154,25 +157,56 @@
         const div = document.createElement('div');
         div.className = 'option';
         div.textContent = opt.label;
+        div.setAttribute('role', 'button');
+        div.setAttribute('tabindex', '0');
+
+        // Apply initial selected state + ARIA
         if (selected.includes(i)) div.classList.add('selected');
+        div.setAttribute('aria-pressed', selected.includes(i) ? 'true' : 'false');
+
         div.onclick = () => {
+          // light haptic (best-effort)
+          if (navigator && navigator.vibrate) { try { navigator.vibrate(8); } catch (_) {} }
+
           if (q.type === 'single') {
+            // set only this option
             answers[q.id] = { indices: [i] };
-            [...answersEl.querySelectorAll('.option')].forEach(n => n.classList.remove('selected'));
+            // clear others visually
+            [...answersEl.querySelectorAll('.option')].forEach(n => {
+              n.classList.remove('selected');
+              n.setAttribute('aria-pressed', 'false');
+            });
             div.classList.add('selected');
+            div.setAttribute('aria-pressed', 'true');
+            saveState('quiz_answers', answers);
+            setNextEnabled(true);
+
+            // Auto-advance after brief beat (remove if undesired)
+            setTimeout(() => { nextBtn.click(); }, 180);
           } else {
+            // multi
             let arr = answers[q.id]?.indices || [];
             if (arr.includes(i)) {
               arr = arr.filter(x => x !== i);
+              div.classList.remove('selected');
+              div.setAttribute('aria-pressed', 'false');
             } else {
               if (q.max_select && arr.length >= q.max_select) return;
               arr.push(i);
+              div.classList.add('selected');
+              div.setAttribute('aria-pressed', 'true');
             }
             answers[q.id] = { indices: arr };
-            div.classList.toggle('selected');
+            saveState('quiz_answers', answers);
+            setNextEnabled(arr.length > 0);
           }
-          saveState('quiz_answers', answers);
         };
+
+        // Keyboard support
+        div.onkeydown = (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); div.click(); }
+        };
+
         answersEl.appendChild(div);
       });
     }
