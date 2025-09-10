@@ -30,3 +30,21 @@ ul{margin:8px 0 0 18px}
 .arch-secondary__img{
   width:56px; height:56px; object-fit:contain; border-radius:10px; border:1px solid var(--line); background:#fff;
 }
+/* stronger selected state + checkmark */
+.option{ position:relative; transition:background .15s, border-color .15s, transform .04s; }
+.option:active{ transform: scale(0.995); }
+.option.selected{ border-color:var(--deep-indigo); background:#f2f1ff; }
+.option.selected::after{
+  content:"✓";
+  position:absolute;
+  right:12px; top:50%; transform:translateY(-50%);
+  font-weight:700;
+  color:var(--deep-indigo);
+}
+
+/* focus ring for keyboard users */
+.option:focus-visible{
+  outline:2px solid var(--deep-indigo);
+  outline-offset:2px;
+  border-radius:10px;
+}
